@@ -30,6 +30,16 @@ export default async function CustomerPortal() {
 		cases = data || []
 	}
 	
+	function formatDateISO(dateStr: string | null): string {
+		if (!dateStr) return ''
+		try {
+			const d = new Date(dateStr)
+			return d.toISOString().slice(0, 10)
+		} catch {
+			return ''
+		}
+	}
+	
 	return (
 		<main className="space-y-6">
 			<div>
@@ -54,7 +64,7 @@ export default async function CustomerPortal() {
 							</CardHeader>
 							<CardContent>
 								<div className="text-sm text-slate-600 mb-3">
-									Created: {new Date(c.created_at).toLocaleDateString()}
+									Created: {formatDateISO(c.created_at)}
 								</div>
 								<Button variant="outline" size="sm" asChild>
 									<Link href={`/cases/${c.id}`}>View Checklist</Link>

@@ -6,16 +6,27 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Progress } from '@/components/ui/progress'
 import { Button } from '@/components/ui/button'
 import { Input, Label } from '@/components/ui/input'
-
+import {use} from 'react'
 export default function CaseChecklistPage({ params }: { params: { id: string }}) {
 	const supabase = getSupabaseBrowserClient()
-	const caseId = params.id
+    const {id} = use(params)
+	const caseId = id
 	const [items, setItems] = useState<any[]>([])
 	const [title, setTitle] = useState<string>('')
 	const [user, setUser] = useState<any>(null)
 	const [userRole, setUserRole] = useState<string>('')
 	const [newItemTitle, setNewItemTitle] = useState('')
 	const [showAddForm, setShowAddForm] = useState(false)
+
+	function formatDateTimeISO(dateStr: string | null): string {
+		if (!dateStr) return ''
+		try {
+			const d = new Date(dateStr)
+			return d.toISOString().replace('T', ' ').slice(0, 16)
+		} catch {
+			return ''
+		}
+	}
 
 	async function load() {
 		const { data: { user } } = await supabase.auth.getUser()
@@ -67,7 +78,7 @@ export default function CaseChecklistPage({ params }: { params: { id: string }})
 	}
 
 	return (
-		<main className="p-0">
+		<main className="p-0 animate-fade-in-up">
 			<Card>
 				<CardHeader>
 					<CardTitle>Checklist — {title}</CardTitle>
@@ -103,7 +114,7 @@ export default function CaseChecklistPage({ params }: { params: { id: string }})
 				<CardContent>
 					<div className="divide-y divide-slate-200">
 						{items.map((it) => (
-							<div key={it.id} className="py-3 flex items-center justify-between">
+							<div key={it.id} className="py-3 flex items-center justify-between animate-fade-in-up">
 								<div className="flex items-center gap-3">
 									<input 
 										type="checkbox" 
@@ -114,7 +125,7 @@ export default function CaseChecklistPage({ params }: { params: { id: string }})
 									/>
 									<div>
 										<div className="font-medium text-slate-900">{it.title}</div>
-										<div className="text-xs text-slate-500">{it.completed_at ? new Date(it.completed_at).toLocaleString() : 'Not completed'}</div>
+										<div className="text-xs text-slate-500">{it.completed_at ? formatDateTimeISO(it.completed_at) : 'Not completed'}</div>
 									</div>
 								</div>
 								{canComplete && (

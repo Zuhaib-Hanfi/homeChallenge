@@ -10,10 +10,10 @@ type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(function Button(
 	{ className, variant = 'default', size = 'md', asChild = false, ...props }, ref
 ) {
-	const base = 'inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-60 disabled:pointer-events-none'
+	const base = 'inline-flex items-center justify-center rounded-md font-medium transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-60 disabled:pointer-events-none active:scale-[0.98]'
 	const variants: Record<string,string> = {
-		default: 'bg-slate-900 text-white hover:bg-slate-800 focus:ring-slate-900',
-		outline: 'border border-slate-300 bg-white hover:bg-slate-50 text-slate-900 focus:ring-slate-300',
+		default: 'bg-slate-900 text-white hover:bg-slate-800 focus:ring-slate-900 shadow-sm',
+		outline: 'border border-slate-300 bg-white hover:bg-slate-50 text-slate-900 focus:ring-slate-300 shadow-sm',
 		ghost: 'bg-transparent hover:bg-slate-100 text-slate-900 focus:ring-slate-300'
 	}
 	const sizes: Record<string,string> = {

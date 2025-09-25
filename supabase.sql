@@ -96,6 +96,13 @@ DROP POLICY IF EXISTS "items update by authenticated" ON public.checklist_items;
 CREATE POLICY "items update by authenticated" ON public.checklist_items
 	FOR UPDATE USING (auth.role() = 'authenticated');
 
+-- Indexes for performance
+CREATE INDEX IF NOT EXISTS idx_cases_created_at ON public.cases(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_cases_contact_email ON public.cases(contact_email);
+CREATE INDEX IF NOT EXISTS idx_checklists_case_id ON public.checklists(case_id);
+CREATE INDEX IF NOT EXISTS idx_items_checklist_id ON public.checklist_items(checklist_id);
+CREATE INDEX IF NOT EXISTS idx_items_is_complete ON public.checklist_items(is_complete);
+
 -- Function: create case with default checklist
 CREATE OR REPLACE FUNCTION public.create_case_with_checklist(p_title text, p_client_name text, p_contact_email text)
 RETURNS uuid AS $$

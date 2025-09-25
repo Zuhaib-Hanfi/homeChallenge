@@ -15,3 +15,4 @@ export function getSupabaseBrowserClient(): SupabaseClient {
 	browserClient = createBrowserClient(url, anon)
 	return browserClient
 }
+
